@@ -1,0 +1,29 @@
+# environment set-up
+
+mkdir taxi_monitoring
+cd taxi_monitoring
+conda create -n p11 python=3.11
+conda activate py11
+pip install -r requirements.txt
+docker-compose --version
+mkdir config
+docker-compose up --build
+docker-compose down
+
+# prepare model and reference
+
+conda activate p11
+mkdir models
+mkdir data
+jupyter notebook
+
+python dummy_metrics_calculation.py
+
+prefect server start
+prefect config set PREFECT_API_URL=http://127.0.0.1:4200/api
+python evidently_metrics_calculation.py
+
+mkdir dashboards
+
+docker-compose down
+
