@@ -1,0 +1,21 @@
+version: '3'
+services:
+  localstack:
+    image: localstack/localstack
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - PORT_WEB_UI=8080
+    ports:
+      - '4566-4599:4566-4599'
+      - '8080:8080'
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/tmp/localstack:/tmp/localstack'
+    networks:
+      - localstack_network
+    command: sh -c "sleep 5 && localstack start"
+
+networks:
+  localstack_network:
